@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.signup.login.entity.Otp;
-import com.signup.login.entity.User; // ✅ THIS IS THE MISSING ONE
+import com.signup.login.entity.User; 
 import com.signup.login.repository.OtpRepository;
 import com.signup.login.repository.UserRepository;
 
