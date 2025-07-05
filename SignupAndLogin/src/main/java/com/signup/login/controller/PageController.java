@@ -8,29 +8,29 @@ public class PageController {
 
     @GetMapping("/signup")
     public String signupPage() {
-        return "signup"; // will resolve to templates/signup.html
+        return "signup"; 
     }
 
     @GetMapping("/verify")
     public String verifyPage() {
-        return "verify"; // will resolve to templates/verify.html
+        return "verify"; 
     }
     
     
     @GetMapping("/login")
     public String showLoginPage() {
-        return "login"; // This maps to login.html (if using templates or static resources)
+        return "login"; 
     }
     
     
     @GetMapping("/forgot")
     public String forgotPage() {
-        return "forgot"; // maps to forgot.html
+        return "forgot"; 
     }
     
     @GetMapping("/dashboard")
     public String dashboardPage() {
-        return "dashboard"; // This resolves to templates/dashboard.html
+        return "dashboard"; 
     }
 
 
