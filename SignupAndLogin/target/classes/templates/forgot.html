@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forgot Password | SecureApp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .message {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    #sendResult {
+      color: green;
+    }
+
+    #resetResult {
+      color: blue;
+    }
+
+    .link-group {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .link-group a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    .link-group a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🔐 Forgot Password</h2>
+
+    <div class="form-group">
+      <input type="email" id="forgotEmail" placeholder="📧 Enter your email" />
+      <button class="btn" onclick="sendOtp()">Send OTP</button>
+      <p class="message" id="sendResult"></p>
+    </div>
+
+    <div class="form-group">
+      <input type="text" id="otp" placeholder="🔢 Enter OTP" />
+    </div>
+
+    <div class="form-group">
+      <input type="password" id="newPassword" placeholder="🔒 New Password" />
+      <button class="btn" onclick="resetPassword()">Reset Password</button>
+      <p class="message" id="resetResult"></p>
+    </div>
+
+    <div class="link-group">
+      🔙 <a href="/login">Back to Login</a> |
+      🆕 <a href="/signup">Create New Account</a>
+    </div>
+  </div>
+
+  <script>
+    const baseUrl = 'http://localhost:8080/api/auth';
+
+    function sendOtp() {
+      const email = document.getElementById('forgotEmail').value;
+
+      fetch(`${baseUrl}/send-reset-otp?email=` + encodeURIComponent(email), {
+        method: 'POST'
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('sendResult').innerText = data;
+        document.getElementById('resetResult').innerText = '';
+      })
+      .catch(err => console.error(err));
+    }
+
+    function resetPassword() {
+      const email = document.getElementById('forgotEmail').value;
+      const otp = document.getElementById('otp').value;
+      const newPassword = document.getElementById('newPassword').value;
+
+      fetch(`${baseUrl}/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, otp, newPassword })
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('resetResult').innerText = data;
+      })
+      .catch(err => console.error(err));
+    }
+  </script>
+
+</body>
+</html>

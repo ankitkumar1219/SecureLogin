@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up | SecureApp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #eef2f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 35px 30px;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #222;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #signupResult {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      color: green;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🔐 Create Your Account</h2>
+
+    <input type="text" id="name" placeholder="👤 Full Name" required />
+    <input type="email" id="email" placeholder="📧 Email Address" required />
+    <input type="password" id="password" placeholder="🔒 Password" required />
+
+    <button onclick="signup()">Sign Up</button>
+
+    <p id="signupResult"></p>
+
+    <p class="link">✅ Already registered? <a href="/verify">Verify OTP</a></p>
+    <p class="link">🔁 Already have an account? <a href="/login">Login</a></p>
+  </div>
+
+  <script th:inline="javascript">
+    const baseUrl = /*[[@{/api/auth}]]*/ 'http://localhost:8080/api/auth';
+
+    function signup() {
+      const user = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value.trim()
+      };
+
+      fetch(`${baseUrl}/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('signupResult').innerText = data;
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('signupResult').innerText = '❌ Something went wrong. Try again.';
+      });
+    }
+  </script>
+
+</body>
+</html>
